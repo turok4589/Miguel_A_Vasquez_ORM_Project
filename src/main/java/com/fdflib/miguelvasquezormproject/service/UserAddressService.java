@@ -18,13 +18,17 @@ public class UserAddressService extends FdfCommonServices{
             if(useraddress.currentuser != null){
                //a user should only have one login, so check to see if they have one
                Useraddress useraddress2 = getcurrentUseraddress(uid);
-               if(useraddress2 == null){ //means user has no address
-                  useraddress.tid = uid;
-                  return this.save(Useraddress.class, useraddress).current;
+               if(useraddress2 != null){ //user has an address
+                  useraddress.id = useraddress2.id;
                }
-               else if(useraddress2 != null){ //updates address information
-                   useraddress.id = useraddress2.id;
-                   return this.save(Useraddress.class, useraddress).current;
+               if(useraddress != null){ //updates address information or saves new useraddress 
+                   if(useraddress2 != null){
+                      return this.save(Useraddress.class, useraddress).current;
+                   }
+                   else{
+                      useraddress.tid = uid;
+                      return this.save(Useraddress.class, useraddress).current;
+                   }
                 }
             }
         }
@@ -33,10 +37,17 @@ public class UserAddressService extends FdfCommonServices{
 
     public FdfEntity<Useraddress> getUseraddressbytidwithhistory(long uid){
         List<FdfEntity<Useraddress>> Useraddressbytid = getAll(Useraddress.class, uid);
-        return Useraddressbytid.get(0);
+        if(Useraddressbytid.size() > 0){
+           return Useraddressbytid.get(0);
+        }
+        return null;
     }
 
     public Useraddress getcurrentUseraddress(long uid){
-        return getUseraddressbytidwithhistory(uid).current;
+        FdfEntity<Useraddress> Useraddresswithhistory = getUseraddressbytidwithhistory(uid);
+        if(Useraddresswithhistory != null && Useraddresswithhistory.current != null){
+            return getUseraddressbytidwithhistory(uid).current;
+        }
+        return null;
     }
 }
