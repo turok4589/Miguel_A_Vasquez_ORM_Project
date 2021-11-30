@@ -20,7 +20,7 @@ public class User_ID extends CommonState{
     @FdfIgnore
     public ID_types currentidtype = null;
 
-    public ID(){
+    public User_ID(){
          super();
     }
 

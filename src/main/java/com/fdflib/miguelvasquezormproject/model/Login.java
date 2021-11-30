@@ -1,7 +1,7 @@
 package com.fdflib.miguelvasquezormproject.model;
 import com.fdflib.annotation.FdfIgnore;
 import com.fdflib.model.state.CommonState;
-public class Login {
+public class Login extends CommonState {
     public long userid = -1L;
     public String email = "";
     public String password = "";

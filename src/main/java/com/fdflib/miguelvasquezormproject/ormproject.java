@@ -21,8 +21,10 @@ import com.fdflib.miguelvasquezormproject.model.UserCheckin;
 import com.fdflib.miguelvasquezormproject.model.Beacons;
 import com.fdflib.miguelvasquezormproject.model.Beacon_Report;
 import com.fdflib.miguelvasquezormproject.service.Clientservice;
+import com.fdflib.miguelvasquezormproject.service.ClientRoleService;
 import com.fdflib.miguelvasquezormproject.service.Userservice;
 import com.fdflib.miguelvasquezormproject.service.Rolesservice;
+import com.fdflib.miguelvasquezormproject.service.LoginService;
 import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.persistence.database.DatabaseUtil;
 import com.fdflib.service.FdfServices;
@@ -146,7 +148,7 @@ public class ormproject {
     private static void insertSomeData() throws InterruptedException {
            Clientservice cs = new Clientservice();
            Rolesservice rs = new Rolesservice();
-           ClientRoleService cs = new ClientRoleService();
+           ClientRoleService crs = new ClientRoleService();
            //create some clients
            Client Miguel = new Client();
            Miguel.name = "Miguel Vasquez";
@@ -167,34 +169,34 @@ public class ormproject {
        Roles OmniAdministrator = new Roles();
        OmniAdministrator.name = Rolenames.OmniAdministrator; 
        OmniAdministrator.description = "Can administer any client, can also create, edit or delete clients.";
-       rs.save(OmniAdministrator);
+       rs.saveRole(OmniAdministrator);
 
        Roles ClientAdministrator = new Roles();
        ClientAdministrator.name = Rolenames.ClientAdministrator; 
        OmniAdministrator.description = "Can administer information within client account.";
-       rs.save(ClientAdministrator);
+       rs.saveRole(ClientAdministrator);
 
        Roles ClientManager = new Roles();
        ClientManager.name = Rolenames.ClientManager; 
        ClientManager.description = "Manager of client account, can perform client operations including managing maps, beacons and viewing users current and past locations.";
-       rs.save(ClientManager);
+       rs.saveRole(ClientManager);
 
        Roles ClientBeaconManager = new Roles();
        ClientBeaconManager.name = Rolenames.ClientBeaconManager; 
        ClientBeaconManager.description = "Manager of client account can perform client operations including managing beacons and viewing users current locations.";
-       rs.save(ClientBeaconManager);
+       rs.saveRole(ClientBeaconManager);
 
        Roles ClientMapViewer = new Roles();
        ClientMapViewer.name = Rolenames.ClientMapViewer; 
        ClientMapViewer.description = "Client account with privileges to view users current location ifnromation, can be used by school administrators and local authorities to view the current location of personal without needing to modify information.";
-       rs.save(ClientMapViewer);
+       rs.saveRole(ClientMapViewer);
 
        Roles ClientUser = new Roles();
        ClientUser.name = Rolenames.ClientUser; 
        ClientUser.description = "Basic client user account can report locations to the system but not see maps or locations.";
-       rs.save(ClientUser);
+       rs.saveRole(ClientUser);
 
-       long amountofrows = rs.number_of_rows();
+       long amountofrows = rs.numberofroles();
        System.out.println("Number of rows available: " + amountofrows);
   
     }

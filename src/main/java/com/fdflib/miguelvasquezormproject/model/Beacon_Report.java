@@ -6,7 +6,7 @@ public class Beacon_Report extends CommonState {
     public long currentfloorid = -1L;
     public Integer RSSI = 0;
     public Integer txpower = 0;
-    public Double Accuracy = 0;
+    public Double Accuracy = 0.0;
     public Integer Remote_Time = 0;
 
     @FdfIgnore
