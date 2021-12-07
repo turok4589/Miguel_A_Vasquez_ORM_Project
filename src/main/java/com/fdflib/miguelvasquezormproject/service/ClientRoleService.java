@@ -2,6 +2,7 @@ package com.fdflib.miguelvasquezormproject.service;
 import com.fdflib.miguelvasquezormproject.model.ClientRole;
 import com.fdflib.miguelvasquezormproject.model.Client;
 import com.fdflib.miguelvasquezormproject.service.Clientservice;
+import com.fdflib.miguelvasquezormproject.service.Rolesservice;
 import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.model.util.WhereClause;
 import com.fdflib.persistence.FdfPersistence;
@@ -13,10 +14,12 @@ public class ClientRoleService extends FdfCommonServices{
     //this save method will require the tenant id, to be passed as an arguement.
     public ClientRole saveClientRole(ClientRole clientrole, long tid, long roleid){
         Clientservice cs = new Clientservice();
+        Rolesservice rs = new Rolesservice();
         if(clientrole != null && tid >= 0 && roleid >= 0){
            //check if tenant id exists
            clientrole.currentclient = cs.getClientById(tid); //id is unique so should only be one record.
-           if(clientrole.currentclient != null){
+           clientrole.roles = rs.getRoleById(roleid);
+           if(clientrole.currentclient != null && clientrole.roles != null){
               clientrole.tid = tid;
               return this.save(ClientRole.class, clientrole).current;
            }

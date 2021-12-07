@@ -9,7 +9,7 @@ public class ClientRole extends CommonState{
     @FdfIgnore
     public Client currentclient = null;
     @FdfIgnore 
-    public Rolenames roles = null;
+    public Roles roles = null;
 
     public ClientRole(){
         super();

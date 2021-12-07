@@ -2,6 +2,7 @@ package com.fdflib.miguelvasquezormproject.model;
 import com.fdflib.annotation.FdfIgnore;
 import com.fdflib.model.state.CommonState;
 public class User extends CommonState{
+    public String username = ""; //unique field to query the user by
     public long multitenantuserid = -1; //a field to identify multiple tenants for a particular user. A seperate method called save multi tentant user will be used.
     public Boolean isinmultipletables = false;
     public String firstName = "";

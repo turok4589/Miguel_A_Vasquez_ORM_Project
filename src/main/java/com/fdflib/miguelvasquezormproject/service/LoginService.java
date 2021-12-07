@@ -11,19 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 public class LoginService extends FdfCommonServices{
     //this will save the login for the specified user, in this case the user will be the tenant of the login
-    public Login savelogin(Login login, long uid){
+    public Login savelogin(Login login, long uid, long tid){
         Userservice us = new Userservice();
         if(login != null && uid >= 0){
-            login.currentuser = us.getUserById(uid); //Checking to see if tenant id exists
+            login.currentuser = us.getUserById(uid, tid); //Checking to see if tenant id exists
             if(login.currentuser != null){
                //a user should only have one login, so check to see if they have one
                Login login2 = getcurrentloginforuser(uid);
-               if(login2 == null){ //means user has no login
-                  login.tid = uid;
-                  return this.save(Login.class, login).current;
-               }
-               else if(login2 != null){ //updates login information
+               if(login2 != null){
+                   //updates login information
                    login.id = login2.id;
+                   return this.save(Login.class, login).current;
+               }
+               else{
+                   //means user has no login so create an entity
+                   login.tid = uid;
                    return this.save(Login.class, login).current;
                 }
             }
@@ -33,7 +35,10 @@ public class LoginService extends FdfCommonServices{
     //get login information for user with history, there should only be one entry
     public FdfEntity<Login> getLoginbytidwithhistory(long uid){
         List<FdfEntity<Login>> loginbytid = getAll(Login.class, uid);
-        return loginbytid.get(0);
+        if(loginbytid.size() > 0){
+           return loginbytid.get(0);
+        }
+        return null;
     }
 
     public Login getcurrentloginforuser(long uid){

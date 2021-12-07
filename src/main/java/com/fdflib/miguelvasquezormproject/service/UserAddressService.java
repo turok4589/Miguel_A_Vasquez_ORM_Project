@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 public class UserAddressService extends FdfCommonServices{
     //save address to specified user, there should only be one address per user
-    public Useraddress saveUseraddress(Useraddress useraddress, long uid){
+    public Useraddress saveUseraddress(Useraddress useraddress, long uid, long tid){
         Userservice us = new Userservice();
         if(useraddress != null && uid >= 0){
-            useraddress.currentuser = us.getUserById(uid); //Checking to see if tenant id exists
+            useraddress.currentuser = us.getUserById(uid, tid); //Checking to see if tenant id exists
             if(useraddress.currentuser != null){
-               //a user should only have one login, so check to see if they have one
+               //a user should only have one address, so check to see if they have one
                Useraddress useraddress2 = getcurrentUseraddress(uid);
                if(useraddress2 != null){ //user has an address
                   useraddress.id = useraddress2.id;
@@ -46,7 +46,7 @@ public class UserAddressService extends FdfCommonServices{
     public Useraddress getcurrentUseraddress(long uid){
         FdfEntity<Useraddress> Useraddresswithhistory = getUseraddressbytidwithhistory(uid);
         if(Useraddresswithhistory != null && Useraddresswithhistory.current != null){
-            return getUseraddressbytidwithhistory(uid).current;
+            return Useraddresswithhistory.current;
         }
         return null;
     }

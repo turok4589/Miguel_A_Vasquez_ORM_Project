@@ -9,7 +9,7 @@ public class UserRole extends CommonState {
     @FdfIgnore
     public User currentuser = null;
     @FdfIgnore 
-    public Rolenames roles = null;
+    public Roles roles = null;
 
     public UserRole(){
         super();

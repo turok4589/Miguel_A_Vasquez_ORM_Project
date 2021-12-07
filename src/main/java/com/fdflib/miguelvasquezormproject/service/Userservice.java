@@ -23,13 +23,53 @@ public class Userservice extends FdfCommonServices{
        return null;
     }
     //update a user
-    public User updateUser(User user, long uid){
+    public User updateUser(User user, long uid, long tid){
         if(user != null){
-            //check if client exists
-            if(getUserById(uid) != null){
+            //check if client exists, and get the requested user.
+            if(getUserById(uid, tid) != null){
                 user.id = uid;
                return this.save(User.class, user).current;
             }
+        }
+       return null;
+    }
+    //testing a new field known as username. More practical way to query for a specific user
+    public User saveuserversion2(User user, long tid){
+        Clientservice cs = new Clientservice();
+        if(user != null && tid >= 0 && user.username.length() > 0){
+            user.currentclient = cs.getClientById(tid); //Checking to see if tenant id exists
+            if(user.currentclient != null){ //this means tenant exists
+               //check if there's already a matching username
+               User user2 = getCurrentUserbyusername(user.username, tid);
+               if(user2 != null){
+                   //means a user with that username exists
+                   user.id = user2.id;
+                   return this.save(User.class, user).current;
+               }
+               else{
+                   user.tid = tid;
+                   return this.save(User.class, user).current;
+               }
+            }
+        }
+       return null;
+    }
+    
+    //retrieve a specific user by their username, username is a unique field
+    //there should only be one username per person
+    //pass the username, and the tenant id
+    public FdfEntity<User> getUserbyusernamewithhistory(String Username, long tid){
+        List<FdfEntity<User>> Usernamehistory = getEntitiesByValueForPassedField(User.class, "username", Username, tid);
+        if(Username.size() > 0){
+            return Usernamehistory.get(0);
+        }
+      return null;
+    }
+
+    public User getCurrentUserbyusername(String Username, long tid){
+        FdfEntity<User> Usernamehistory = getUserbyusernamewithhistory(Username, tid);
+        if(Usernamehistory != null && Usernamehistory.current != null){
+            return Usernamehistory.current;
         }
        return null;
     }
@@ -38,10 +78,10 @@ public class Userservice extends FdfCommonServices{
     //User first has to be saved with the saveuser method
     //Then if the user wants to be in another tenant, then pass to this method the first user.id entry.
     //method was created because I wanted a way to potentially query/know if a user has multiple tenants.
-    public User savemultitenantuser(User user, long uid){
+    public User savemultitenantuser(User user, long uid, long tid){
          if(user != null && uid >= 0){
             //check if uid passed exists
-            if(getUserById(uid) != null){
+            if(getUserById(uid, tid) != null){
                 user.multitenantuserid = uid;
                 user.isinmultipletables = true;
                 return this.save(User.class, user).current;
@@ -52,17 +92,17 @@ public class Userservice extends FdfCommonServices{
 
     //Will return an entity of type client. Only gets 1 specific thing as uid represents an entity, and if a user has another tenant then it will get another entry.
     //It will also recieve a new uid.
-    public User getUserById(long id) {
-        return getUserWithHistoryById(id).current;
+    public User getUserById(long id, long tid) {
+        return getUserWithHistoryById(id, tid).current;
 
     }
 
-    public FdfEntity<User> getUserWithHistoryById(long id) {
+    public FdfEntity<User> getUserWithHistoryById(long id, long tid) {
         FdfEntity<User> user = new FdfEntity<>();
 
         // get the test
         if(id >= 0) {
-            user = this.getEntityById(User.class, id);
+            user = this.getEntityById(User.class, id, tid);
         }
 
         return user;
@@ -90,6 +130,5 @@ public class Userservice extends FdfCommonServices{
         }
       return currentusersoftenant;
     }
-
 
 }
