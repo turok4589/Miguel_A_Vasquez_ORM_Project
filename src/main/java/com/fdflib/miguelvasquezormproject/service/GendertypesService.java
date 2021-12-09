@@ -50,4 +50,20 @@ public class GendertypesService extends FdfCommonServices{
         return gendertypes;
     }
 
+    public FdfEntity<Gendertypes> getgenderbynamewithhistory(String gender){
+        List<FdfEntity<Gendertypes>> genderwithHistory = getEntitiesByValueForPassedField(Gendertypes.class, "name", gender);
+        if(genderwithHistory.size() > 0){
+            return genderwithHistory.get(0);
+        }
+        return null;
+    }
+
+    public Gendertypes getgenderbyname(String gender){
+        List<FdfEntity<Gendertypes>> genderwithHistory = getgenderbynamewithhistory(gender);
+        if(genderwithHistory != null && genderwithHistory.current != null){
+            return genderwithHistory.current;
+        }
+       return null;
+    }
+
 }

@@ -49,4 +49,20 @@ public class ID_TypesService extends FdfCommonServices{
 
         return iD_Types;
     }
+
+    public FdfEntity<ID_types> getID_typesbynamewithhistory(String idtype){
+        List<FdfEntity<ID_types>> ID_typeswithHistory = getEntitiesByValueForPassedField(ID_types.class, "name", idtype);
+        if(ID_typeswithHistory.size() > 0){
+            return ID_typeswithHistory.get(0);
+        }
+        return null;
+    }
+
+    public Gendertypes getID_typesbyname(String idtype){
+        List<FdfEntity<Gendertypes>> ID_typeswithHistory = getID_typesbynamewithhistory(idtype);
+        if(ID_typeswithHistory != null && ID_typeswithHistory.current != null){
+            return ID_typeswithHistory.current;
+        }
+       return null;
+    }
 }

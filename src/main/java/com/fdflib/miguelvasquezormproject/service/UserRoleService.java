@@ -19,6 +19,8 @@ public class UserRoleService extends FdfCommonServices {
              //check if roleid exists
              userRole.roles = rs.getRoleById(roleid);
              if(userRole.currentuser != null && userRole.roles != null){
+                 userRole.currentclientofuser = tid;
+                 userRole.currentroleid = roleid;
                  userRole.tid = uid;
                  return this.save(UserRole.class, userRole).current;
              }

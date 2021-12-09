@@ -4,6 +4,7 @@ import com.fdflib.model.state.CommonState;
 public class UserRole extends CommonState {
     public long currentuserid = -1L;
     public long currentroleid = -1L;
+    public long currentclientofuser = -1L;
     public Boolean isactive = true;
 
     @FdfIgnore

@@ -11,7 +11,7 @@ public class UserStatusTypesService extends FdfCommonServices {
     public UserStatusTypes savestatustypes(UserStatusTypes userstatustypes){
         if(userstatustypes != null){
             long number_of_rows = numberofuserstatusids();
-            if(number_of_rows >= 3){
+            if(number_of_rows > 3){
                 System.out.println("No more roles should be added");
             }
             else{

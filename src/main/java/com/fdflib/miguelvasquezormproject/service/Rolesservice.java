@@ -11,7 +11,7 @@ public class Rolesservice extends FdfCommonServices {
     public Roles saveRole(Roles role){
         if(role != null){
            long number_of_rows = numberofroles();
-           if(number_of_rows > 17)
+           if(number_of_rows > 24)
              {
                 System.out.println("No more roles should be added to this table");
              }

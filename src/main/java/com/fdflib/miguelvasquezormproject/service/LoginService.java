@@ -17,15 +17,17 @@ public class LoginService extends FdfCommonServices{
             login.currentuser = us.getUserById(uid, tid); //Checking to see if tenant id exists
             if(login.currentuser != null){
                //a user should only have one login, so check to see if they have one
-               Login login2 = getcurrentloginforuser(uid);
+               Login login2 = getcurrentloginforuser(uid, tid);
                if(login2 != null){
                    //updates login information
                    login.id = login2.id;
+                   login.tid = login2.tid;
                    return this.save(Login.class, login).current;
                }
                else{
                    //means user has no login so create an entity
-                   login.tid = uid;
+                   login.tid = tid;
+                   login.userid = uid;
                    return this.save(Login.class, login).current;
                 }
             }
@@ -33,8 +35,9 @@ public class LoginService extends FdfCommonServices{
        return null;
     }
     //get login information for user with history, there should only be one entry
-    public FdfEntity<Login> getLoginbytidwithhistory(long uid){
-        List<FdfEntity<Login>> loginbytid = getAll(Login.class, uid);
+    public FdfEntity<Login> getLoginbytidwithhistory(long uid, long tid){
+        String userid2 = Long.toString(uid);
+        List<FdfEntity<Login>> loginbytid = getEntitiesByValueForPassedField(Login.class, "userid", userid2, tid);
         if(loginbytid.size() > 0){
            return loginbytid.get(0);
         }

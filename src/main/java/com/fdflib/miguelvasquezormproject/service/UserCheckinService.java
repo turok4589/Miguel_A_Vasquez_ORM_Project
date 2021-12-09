@@ -24,12 +24,15 @@ public class UserCheckinService extends FdfCommonServices{
                   //user has an entry in the table
                   //might add restrictions later like user needs to arrive b4 checks in
                   usercheckin.id = usercheckin2.id;
+                  userCheckin.tid = usercheckin2.tid;
               }
               if(usercheckin2 != null){
                   return this.save(UserCheckin.class, usercheckin).current;
               }
               else{
-                  usercheckin.tid = uid;
+                  usercheckin.tid = tid;
+                  usercheckin.currentuserid = uid;
+                  usercheckin.currentuserstatustypeid = roleid;
                   return this.save(UserCheckin.class, usercheckin).current;
               }
 
@@ -38,16 +41,17 @@ public class UserCheckinService extends FdfCommonServices{
        return null;
     }
 
-    public FdfEntity<UserCheckin> getUserCheckinbyuidwithhistory(long uid){
-        List<FdfEntity<UserCheckin>> UserCheckinbyuid = getAll(UserCheckin.class, uid);
+    public FdfEntity<UserCheckin> getUserCheckinbyuidwithhistory(long uid, long tid){
+        String userid2 = Long.toString(uid);
+        List<FdfEntity<UserCheckin>> UserCheckinbyuid = getEntitiesByValueForPassedField(UserCheckin.class, "currentuserid", userid2, tid);
         if(UserCheckinbyuid.size() > 0){
            return UserCheckinbyuid.get(0);
         }
         return null;
     }
 
-    public UserCheckin getcurrentUserCheckin(long uid){
-        FdfEntity<UserCheckin> UserCheckinwithhistory = getUserCheckinbyuidwithhistory(uid);
+    public UserCheckin getcurrentUserCheckin(long uid, long tid){
+        FdfEntity<UserCheckin> UserCheckinwithhistory = getUserCheckinbyuidwithhistory(uid, tid);
         if(UserCheckinwithhistory != null && UserCheckinwithhistory.current != null){
             return UserCheckinwithhistory.current;
         }
