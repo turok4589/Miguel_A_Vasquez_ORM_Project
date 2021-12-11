@@ -25,14 +25,7 @@ public class ID_TypesService extends FdfCommonServices{
     
     public long numberofids(){
         long numberofrows = getEntityCount(ID_types.class);
-        if(numberofrows <= 0){
-            System.out.println("There are no roles in this table");
-        }
-        else
-        {
-            return numberofrows;
-        }
-       return -1;
+        return numberofrows;
     }
 
     public ID_types getID_TypesById(long id) {
@@ -58,8 +51,8 @@ public class ID_TypesService extends FdfCommonServices{
         return null;
     }
 
-    public Gendertypes getID_typesbyname(String idtype){
-        List<FdfEntity<Gendertypes>> ID_typeswithHistory = getID_typesbynamewithhistory(idtype);
+    public ID_types getID_typesbyname(String idtype){
+        FdfEntity<ID_types> ID_typeswithHistory = getID_typesbynamewithhistory(idtype);
         if(ID_typeswithHistory != null && ID_typeswithHistory.current != null){
             return ID_typeswithHistory.current;
         }

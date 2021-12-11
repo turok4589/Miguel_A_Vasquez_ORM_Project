@@ -35,7 +35,7 @@ public class LoginService extends FdfCommonServices{
        return null;
     }
     //get login information for user with history, there should only be one entry
-    public FdfEntity<Login> getLoginbytidwithhistory(long uid, long tid){
+    public FdfEntity<Login> getLoginwithhistory(long uid, long tid){
         String userid2 = Long.toString(uid);
         List<FdfEntity<Login>> loginbytid = getEntitiesByValueForPassedField(Login.class, "userid", userid2, tid);
         if(loginbytid.size() > 0){
@@ -44,8 +44,8 @@ public class LoginService extends FdfCommonServices{
         return null;
     }
 
-    public Login getcurrentloginforuser(long uid){
-        return getLoginbytidwithhistory(uid).current;
+    public Login getcurrentloginforuser(long uid, long tid){
+        return getLoginwithhistory(uid, tid).current;
     }
     
 }

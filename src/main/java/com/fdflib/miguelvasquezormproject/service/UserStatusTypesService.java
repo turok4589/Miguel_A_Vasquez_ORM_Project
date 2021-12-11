@@ -23,13 +23,7 @@ public class UserStatusTypesService extends FdfCommonServices {
 
     public long numberofuserstatusids(){
         long numberofrows = getEntityCount(UserStatusTypes.class);
-        if(numberofrows <= 0){
-            System.out.println("There are no roles in this table");
-        }
-        else{
-            return numberofrows;
-        }
-       return -1;
+        return numberofrows;
     }
 
     public UserStatusTypes getstatustypesbyID(long id){
@@ -46,4 +40,21 @@ public class UserStatusTypesService extends FdfCommonServices {
 
         return getstatusid;
     }
+  
+    public FdfEntity<UserStatusTypes> getstatustypebynamehistory(String type){
+        List<FdfEntity<UserStatusTypes>> statuswithHistory = getEntitiesByValueForPassedField(UserStatusTypes.class, "name", type);
+        if(statuswithHistory.size() > 0){
+            return statuswithHistory.get(0);
+        }
+        return null;
+    }
+    
+    public UserStatusTypes getstatusbyname(String type){
+        FdfEntity<UserStatusTypes> statuswithHistory = getstatustypebynamehistory(type);
+        if(statuswithHistory != null && statuswithHistory.current != null){
+            return statuswithHistory.current;
+        }
+       return null;
+    }
+
 }

@@ -6,7 +6,7 @@ public class User_ID extends CommonState{
     public long currentuserid = -1L;
     public long currenttypesid = -1L;
     public long currentgenderid = -1L;
-    public String idnumber = -1L;
+    public String idnumber = "";
     public Calendar dateissued = Calendar.getInstance();
     public Calendar expirationdate = Calendar.getInstance();
     public Calendar dateofbirth = Calendar.getInstance();

@@ -46,7 +46,7 @@ public class UserAddressService extends FdfCommonServices{
         return null;
     }
 
-    public Useraddress getcurrentUseraddress(long uid, tid){
+    public Useraddress getcurrentUseraddress(long uid, long tid){
         FdfEntity<Useraddress> Useraddresswithhistory = getUseraddressbytidwithhistory(uid, tid);
         if(Useraddresswithhistory != null && Useraddresswithhistory.current != null){
             return Useraddresswithhistory.current;

@@ -25,18 +25,10 @@ public class Rolesservice extends FdfCommonServices {
 
     public long numberofroles(){
         long numberofrows = getEntityCount(Roles.class);
-        if(numberofrows <= 0){
-            System.out.println("There are no roles in this table");
-        }
-        else
-        {
-            return numberofrows;
-        }
-       return -1;
+        return numberofrows;
     }
     public Roles getRoleById(long id) {
         return getRolesWithHistoryById(id).current;
-
     }
 
     public FdfEntity<Roles> getRolesWithHistoryById(long id) {

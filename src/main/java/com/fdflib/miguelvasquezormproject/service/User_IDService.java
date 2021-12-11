@@ -16,12 +16,13 @@ public class User_IDService extends FdfCommonServices {
         if(user_ID != null && uid >= 0 && gid >= 0 && idtype >= 0){
             user_ID.currentuser = us.getUserById(uid, tid); //check if user exists
             int i = 0;
+            int numdigits = 0;
             if(user_ID.idnumber.length() <= 8){
                 i = 0;
             }
             else{
                 i = Integer.parseInt(user_ID.idnumber);
-                int numdigits = countdigits(i);
+                numdigits = countdigits(i);
             }
             if(user_ID.currentuser != null && numdigits == 9){
                 User_ID user_ID2 = getUser_IDbyidnumber(user_ID.idnumber, tid);
@@ -68,7 +69,7 @@ public class User_IDService extends FdfCommonServices {
     //pass idnumbner
     public FdfEntity<User_ID> getUser_IDbyidnumberwithhistory(String idnumber, long tid){
         //String idnumber2 = Long.toString(idnumber);
-        List<FdfEntity<User_ID>> User_IDwithHistory = getEntitiesByValueForPassedField(User_ID.class, "idnumber", idnumber2, tid);
+        List<FdfEntity<User_ID>> User_IDwithHistory = getEntitiesByValueForPassedField(User_ID.class, "idnumber", idnumber, tid);
         if(User_IDwithHistory.size() > 0){
             return User_IDwithHistory.get(0); //should only be one entry
         }

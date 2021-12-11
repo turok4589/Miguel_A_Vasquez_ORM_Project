@@ -60,7 +60,7 @@ public class Userservice extends FdfCommonServices{
     //pass the username, and the tenant id
     public FdfEntity<User> getUserbyusernamewithhistory(String Username, long tid){
         List<FdfEntity<User>> Usernamehistory = getEntitiesByValueForPassedField(User.class, "username", Username, tid);
-        if(Username.size() > 0){
+        if(Usernamehistory.size() > 0){
             return Usernamehistory.get(0);
         }
       return null;

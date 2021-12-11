@@ -10,17 +10,39 @@ import com.fdflib.model.util.SqlStatement;
 import java.util.ArrayList;
 import java.util.List;
 public class BeaconService extends FdfCommonServices{
-    public Beacons saveBeacon(Beacons beacons, long tid, long uuid){
+    public Beacons saveBeacon(Beacons beacons, long tid, String uuid){
         Clientservice cs = new Clientservice();
-        if(beacons != null && tid >= 0 && uuid >= 0){
+        if(beacons != null && tid >= 0 && uuid.length() > 0){
            beacons.currentclient = cs.getClientById(tid); //check if client exists
            if(beacons.currentclient != null){
-
+              Beacons beacons2 = getBeaconwithuuid(uuid, tid);
+              //uuid id is unique so if this is not null then that means a bacon with the same uuid is in this table
+              if(beacons2 != null){
+                  beacons.id = beacons2.id;
+                  beacons.tid = beacons2.tid;
+                  return this.save(Beacons.class, beacons).current;
+              }
+              else{
+                  beacons.tid = tid;
+                  beacons.uuid = uuid;
+                  return this.save(Beacons.class, beacons).current;
+              }
            }
         }
        return null;
     }
+    
+    public Beacons getbeaconbyid(long bid, long tid){
+       return getbeaconwithhistorybyid(bid, tid).current;
+    }
 
+    public FdfEntity<Beacons> getbeaconwithhistorybyid(long id, long tid){
+        FdfEntity<Beacons> bea = new FdfEntity<>();
+        if(id >= 0){
+            bea = this.getEntityById(Beacons.class, id, tid);
+        }
+        return bea;
+    }
     //pass the uuid and get history
     public FdfEntity<Beacons> getbeaconwithuuidhistory(String uuid, long tid){
         List<FdfEntity<Beacons>> Beaconwithhistory = getEntitiesByValueForPassedField(Beacons.class, "uuid", uuid, tid);

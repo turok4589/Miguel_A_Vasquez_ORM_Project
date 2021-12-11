@@ -25,14 +25,7 @@ public class GendertypesService extends FdfCommonServices{
 
     public long numberofgenders(){
         long numberofrows = getEntityCount(Gendertypes.class);
-        if(numberofrows <= 0){
-            System.out.println("There are no roles in this table");
-        }
-        else
-        {
-            return numberofrows;
-        }
-       return -1;
+        return numberofrows;
     }
 
     public Gendertypes getGendertypesById(long id) {
@@ -59,7 +52,7 @@ public class GendertypesService extends FdfCommonServices{
     }
 
     public Gendertypes getgenderbyname(String gender){
-        List<FdfEntity<Gendertypes>> genderwithHistory = getgenderbynamewithhistory(gender);
+        FdfEntity<Gendertypes> genderwithHistory = getgenderbynamewithhistory(gender);
         if(genderwithHistory != null && genderwithHistory.current != null){
             return genderwithHistory.current;
         }
