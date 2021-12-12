@@ -41,7 +41,7 @@ public class BeaconReportService extends FdfCommonServices{
                       beaconreport.currentlocationid = lid;
                       beaconreport.currentfloorid = fid;
                       beaconreport.tid = tid;
-                      beaconreport.description = "Beacon is on" + beaconreport.currentlocation.name + " " + "," + beaconreport.currentfloor.name;
+                      beaconreport.description = "Beacon is on " + beaconreport.currentlocation.name + "," + " " + beaconreport.currentfloor.name;
                       return this.save(Beacon_Report.class, beaconreport).current;
                    }
                 }
